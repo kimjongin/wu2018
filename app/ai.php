@@ -18,7 +18,10 @@ class AI
      */
     public static function getGender($text)
     {
-        return 'Male';
+        if (strpos($text, "ครับ") !== false) {
+            return 'Male';
+        }
+        return 'Female';
     }
 
     /**
@@ -26,7 +29,7 @@ class AI
      */
     public static function getSentiment($text)
     {
-        return 'Neutral';
+        return 'Negative';
     }
 
     /**
@@ -42,6 +45,12 @@ class AI
      */
     public static function getLanguages($text)
     {
-        return ['TH', 'EN'];
+        $result = [];
+        $re = '/[ก-๛]+/u';
+        preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0);
+        if (!empty($matches)) {
+            array_push($result, 'TH');
+        }
+        return $result;
     }
 }
